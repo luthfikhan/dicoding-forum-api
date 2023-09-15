@@ -6,9 +6,11 @@
     "sourceMap": true,
     "module": "commonjs",
     "moduleResolution": "node",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true
   },
   "include": [
-    "./src/**/*",
+    "./src/**/*"
   ],
   "exclude": [
     "node_modules"
