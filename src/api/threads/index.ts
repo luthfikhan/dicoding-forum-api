@@ -9,10 +9,10 @@ import {
   RequestDeleteCommentType,
   RequestDeleteReplyType,
 } from "./threads.dto";
-import UsersRepositoryType from "../../common/types/db/repositories/users.repository.type";
-import RepliesRepositoryType from "../../common/types/db/repositories/replies.repository.type";
-import CommentsRepositoryType from "../../common/types/db/repositories/comments.repository.type";
-import ThreadsRepositoryType from "../../common/types/db/repositories/threads.repository.type";
+import UsersRepositoryType from "../../types/repositories/users.repository.type";
+import RepliesRepositoryType from "../../types/repositories/replies.repository.type";
+import CommentsRepositoryType from "../../types/repositories/comments.repository.type";
+import ThreadsRepositoryType from "../../types/repositories/threads.repository.type";
 
 interface PluginOptions {
   threadsRepository: ThreadsRepositoryType;

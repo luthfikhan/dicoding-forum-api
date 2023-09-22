@@ -1,5 +1,5 @@
 import { UpdateResult } from "typeorm";
-import RepliesEntity from "../../../db/entities/replies.entity";
+import RepliesEntity from "../../common/db/entities/replies.entity";
 
 interface RepliesRepositoryType {
   saveReply: (reply: Partial<RepliesEntity>) => Promise<RepliesEntity>;

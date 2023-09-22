@@ -1,4 +1,4 @@
-import AuthType from "../../common/types/auth.type";
+import AuthType from "../../types/auth.type";
 
 export type AddThreadPayload = {
   title: string;

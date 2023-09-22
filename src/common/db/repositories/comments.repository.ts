@@ -1,5 +1,5 @@
 import { DataSource, Repository } from "typeorm";
-import CommentsRepositoryType from "../../types/db/repositories/comments.repository.type";
+import CommentsRepositoryType from "../../../types/repositories/comments.repository.type";
 import CommentsEntity from "../entities/comments.entity";
 
 class CommentsRepository implements CommentsRepositoryType {

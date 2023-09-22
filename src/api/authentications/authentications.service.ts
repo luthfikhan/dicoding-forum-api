@@ -4,8 +4,8 @@ import { isCorrectPassword } from "../../utils/password-hash";
 import { type LoginPayload } from "./authentications.dto";
 import UnAuthenticationError from "../../common/exceptions/unauthentication";
 import { generateToken, generateTokenId, verifyToken } from "../../utils/token";
-import AuthenticationsRepositoryType from "../../common/types/db/repositories/authentications.repository.type";
-import UsersRepositoryType from "../../common/types/db/repositories/users.repository.type";
+import AuthenticationsRepositoryType from "../../types/repositories/authentications.repository.type";
+import UsersRepositoryType from "../../types/repositories/users.repository.type";
 
 export default class AuthenticationsService {
   constructor(

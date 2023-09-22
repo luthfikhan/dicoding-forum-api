@@ -1,4 +1,4 @@
-import UsersEntity from "../../../db/entities/users.entity";
+import UsersEntity from "../../common/db/entities/users.entity";
 
 interface UsersRepositoryType {
   saveUser: (user: Partial<UsersEntity>) => Promise<UsersEntity>;

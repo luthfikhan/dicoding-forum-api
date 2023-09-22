@@ -1,4 +1,4 @@
-import CommentsRepositoryType from "../../../types/db/repositories/comments.repository.type";
+import CommentsRepositoryType from "../../../../types/repositories/comments.repository.type";
 import AppDataSource from "../../db.config";
 import CommentsEntity from "../../entities/comments.entity";
 import CommentsRepository from "../comments.repository";

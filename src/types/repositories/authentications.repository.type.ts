@@ -1,5 +1,5 @@
 import { DeleteResult } from "typeorm";
-import AuthenticationsEntity from "../../../db/entities/authentications.entity";
+import AuthenticationsEntity from "../../common/db/entities/authentications.entity";
 
 interface AuthenticationsRepositoryType {
   saveAuth: (auth: AuthenticationsEntity) => Promise<AuthenticationsEntity>;

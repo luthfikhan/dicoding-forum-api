@@ -1,6 +1,6 @@
 import UsersEntity from "../../common/db/entities/users.entity";
 import BadRequestError from "../../common/exceptions/bad-request";
-import UsersRepositoryType from "../../common/types/db/repositories/users.repository.type";
+import UsersRepositoryType from "../../types/repositories/users.repository.type";
 
 export default class UsersService {
   constructor(private userRepository: UsersRepositoryType) {}

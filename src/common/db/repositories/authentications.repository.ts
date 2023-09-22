@@ -1,6 +1,6 @@
 import { DataSource, Repository } from "typeorm";
 import AuthenticationsEntity from "../entities/authentications.entity";
-import AuthenticationsRepositoryType from "../../types/db/repositories/authentications.repository.type";
+import AuthenticationsRepositoryType from "../../../types/repositories/authentications.repository.type";
 
 class AuthenticationsRepository implements AuthenticationsRepositoryType {
   repository: Repository<AuthenticationsEntity>;

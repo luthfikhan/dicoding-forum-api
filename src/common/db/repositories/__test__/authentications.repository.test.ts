@@ -1,5 +1,5 @@
 import { generateTokenId } from "../../../../utils/token";
-import AuthenticationsRepositoryType from "../../../types/db/repositories/authentications.repository.type";
+import AuthenticationsRepositoryType from "../../../../types/repositories/authentications.repository.type";
 import AppDataSource from "../../db.config";
 import AuthenticationsEntity from "../../entities/authentications.entity";
 import AuthenticationsRepository from "../authentications.repository";

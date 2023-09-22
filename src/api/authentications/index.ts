@@ -3,8 +3,8 @@ import AuthenticationsController from "./authentications.controller";
 import AuthenticationsService from "./authentications.service";
 import * as Joi from "joi";
 import { type RequestLoginType, type RequestLogoutType, type RequestRefreshTokenType } from "./authentications.dto";
-import AuthenticationsRepositoryType from "../../common/types/db/repositories/authentications.repository.type";
-import UsersRepositoryType from "../../common/types/db/repositories/users.repository.type";
+import AuthenticationsRepositoryType from "../../types/repositories/authentications.repository.type";
+import UsersRepositoryType from "../../types/repositories/users.repository.type";
 
 interface PluginOptions {
   authenticationsRepository: AuthenticationsRepositoryType;

@@ -1,5 +1,5 @@
 import { UpdateResult } from "typeorm";
-import CommentsEntity from "../../../db/entities/comments.entity";
+import CommentsEntity from "../../common/db/entities/comments.entity";
 
 interface CommentsRepositoryType {
   saveComment: (comment: Partial<CommentsEntity>) => Promise<CommentsEntity>;

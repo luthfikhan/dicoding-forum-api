@@ -1,5 +1,5 @@
 import { DataSource, Repository } from "typeorm";
-import UsersRepositoryType from "../../types/db/repositories/users.repository.type";
+import UsersRepositoryType from "../../../types/repositories/users.repository.type";
 import UsersEntity from "../entities/users.entity";
 
 class UsersRepository implements UsersRepositoryType {

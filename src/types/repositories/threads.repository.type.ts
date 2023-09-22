@@ -1,4 +1,4 @@
-import ThreadsEntity from "../../../db/entities/threads.entity";
+import ThreadsEntity from "../../common/db/entities/threads.entity";
 
 interface ThreadsRepositoryType {
   saveThread: (thread: Partial<ThreadsEntity>) => Promise<ThreadsEntity>;

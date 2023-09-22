@@ -1,5 +1,5 @@
 import { DataSource, Repository } from "typeorm";
-import ThreadsRepositoryType from "../../types/db/repositories/threads.repository.type";
+import ThreadsRepositoryType from "../../../types/repositories/threads.repository.type";
 import ThreadsEntity from "../entities/threads.entity";
 
 class ThreadsRepository implements ThreadsRepositoryType {

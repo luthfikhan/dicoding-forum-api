@@ -1,4 +1,4 @@
-import UsersRepositoryType from "../../../types/db/repositories/users.repository.type";
+import UsersRepositoryType from "../../../../types/repositories/users.repository.type";
 import AppDataSource from "../../db.config";
 import UsersEntity from "../../entities/users.entity";
 import UsersRepository from "../users.repository";

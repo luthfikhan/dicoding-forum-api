@@ -1,4 +1,4 @@
-import ThreadsRepositoryType from "../../../types/db/repositories/threads.repository.type";
+import ThreadsRepositoryType from "../../../../types/repositories/threads.repository.type";
 import AppDataSource from "../../db.config";
 import ThreadsEntity from "../../entities/threads.entity";
 import ThreadsRepository from "../threads.repository";

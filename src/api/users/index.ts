@@ -3,7 +3,7 @@ import UsersController from "./users.controller";
 import UsersService from "./users.service";
 import * as Joi from "joi";
 import { AddUserPayload } from "./users.dto";
-import UsersRepositoryType from "../../common/types/db/repositories/users.repository.type";
+import UsersRepositoryType from "../../types/repositories/users.repository.type";
 
 type PluginOptions = {
   usersRepository: UsersRepositoryType;

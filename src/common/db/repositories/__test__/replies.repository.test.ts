@@ -1,4 +1,4 @@
-import RepliesRepositoryType from "../../../types/db/repositories/replies.repository.type";
+import RepliesRepositoryType from "../../../../types/repositories/replies.repository.type";
 import AppDataSource from "../../db.config";
 import RepliesEntity from "../../entities/replies.entity";
 import RepliesRepository from "../replies.repository";
