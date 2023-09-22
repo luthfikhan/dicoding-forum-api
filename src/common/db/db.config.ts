@@ -1,9 +1,9 @@
 import { DataSource } from "typeorm";
-import UsersEntity from "../entities/users.entity";
-import AuthenticationsEntity from "../entities/authentications.entity";
-import CommentsEntity from "../entities/comments.entity";
-import ThreadsEntity from "../entities/threads.entity";
-import RepliesEntity from "../entities/replies.entity";
+import UsersEntity from "./entities/users.entity";
+import AuthenticationsEntity from "./entities/authentications.entity";
+import CommentsEntity from "./entities/comments.entity";
+import ThreadsEntity from "./entities/threads.entity";
+import RepliesEntity from "./entities/replies.entity";
 
 const type = process.env.DATA_SOURCE_TYPE as "postgres" | "sqlite";
 

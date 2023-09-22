@@ -1,11 +1,11 @@
 import { Server, ServerApplicationState } from "@hapi/hapi";
 import createServer from "../../../utils/server";
-import UsersEntity from "../../../common/entities/users.entity";
-import AppDataSource from "../../../common/db/data-source";
-import ThreadsEntity from "../../../common/entities/threads.entity";
-import CommentsEntity from "../../../common/entities/comments.entity";
-import RepliesEntity from "../../../common/entities/replies.entity";
-import AuthenticationsEntity from "../../../common/entities/authentications.entity";
+import UsersEntity from "../../../common/db/entities/users.entity";
+import AppDataSource from "../../../common/db/db.config";
+import ThreadsEntity from "../../../common/db/entities/threads.entity";
+import CommentsEntity from "../../../common/db/entities/comments.entity";
+import RepliesEntity from "../../../common/db/entities/replies.entity";
+import AuthenticationsEntity from "../../../common/db/entities/authentications.entity";
 import { generateToken, generateTokenId } from "../../../utils/token";
 
 describe("Threads API Test", () => {

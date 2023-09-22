@@ -1,5 +1,5 @@
 import { Repository } from "typeorm";
-import UsersEntity from "../../common/entities/users.entity";
+import UsersEntity from "../../common/db/entities/users.entity";
 import BadRequestError from "../../common/exceptions/bad-request";
 
 export default class UsersService {

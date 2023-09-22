@@ -1,8 +1,8 @@
 import { Server, ServerApplicationState } from "@hapi/hapi";
 import createServer from "../../../utils/server";
 import { Repository } from "typeorm";
-import UsersEntity from "../../../common/entities/users.entity";
-import AppDataSource from "../../../common/db/data-source";
+import UsersEntity from "../../../common/db/entities/users.entity";
+import AppDataSource from "../../../common/db/db.config";
 
 describe("Users API Test", () => {
   let server: Server<ServerApplicationState>;

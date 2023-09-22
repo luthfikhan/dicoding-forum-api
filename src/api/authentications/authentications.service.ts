@@ -1,6 +1,6 @@
 import { type Repository } from "typeorm";
-import AuthenticationsEntity from "../../common/entities/authentications.entity";
-import type UsersEntity from "../../common/entities/users.entity";
+import AuthenticationsEntity from "../../common/db/entities/authentications.entity";
+import type UsersEntity from "../../common/db/entities/users.entity";
 import BadRequestError from "../../common/exceptions/bad-request";
 import { isCorrectPassword } from "../../utils/password-hash";
 import { type LoginPayload } from "./authentications.dto";

@@ -2,10 +2,10 @@ import { type Plugin, type Request, type ResponseToolkit } from "@hapi/hapi";
 import { Repository } from "typeorm";
 import AuthenticationsController from "./authentications.controller";
 import AuthenticationsService from "./authentications.service";
-import AuthenticationsEntity from "../../common/entities/authentications.entity";
+import AuthenticationsEntity from "../../common/db/entities/authentications.entity";
 import * as Joi from "joi";
 import { type RequestLoginType, type RequestLogoutType, type RequestRefreshTokenType } from "./authentications.dto";
-import UsersEntity from "../../common/entities/users.entity";
+import UsersEntity from "../../common/db/entities/users.entity";
 
 interface PluginOptions {
   authenticationsRepository: Repository<AuthenticationsEntity>;

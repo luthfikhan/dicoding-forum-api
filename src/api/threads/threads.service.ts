@@ -1,9 +1,9 @@
 import { Repository } from "typeorm";
 import { AddCommentPayload, AddReplyPayload, AddThreadPayload } from "./threads.dto";
-import UsersEntity from "../../common/entities/users.entity";
-import ThreadsEntity from "../../common/entities/threads.entity";
-import CommentsEntity from "../../common/entities/comments.entity";
-import RepliesEntity from "../../common/entities/replies.entity";
+import UsersEntity from "../../common/db/entities/users.entity";
+import ThreadsEntity from "../../common/db/entities/threads.entity";
+import CommentsEntity from "../../common/db/entities/comments.entity";
+import RepliesEntity from "../../common/db/entities/replies.entity";
 import NotFoundError from "../../common/exceptions/not-found";
 import { nanoid } from "nanoid";
 import UnAuthorizationError from "../../common/exceptions/unauthorization";

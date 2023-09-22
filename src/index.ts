@@ -1,6 +1,6 @@
 import "dotenv/config";
 import "reflect-metadata";
-import AppDataSource from "./common/db/data-source";
+import AppDataSource from "./common/db/db.config";
 import createServer from "./utils/server";
 
 (async () => {

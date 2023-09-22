@@ -2,9 +2,9 @@ import { type Plugin, type Request, type ResponseToolkit } from "@hapi/hapi";
 import { Repository } from "typeorm";
 import ThreadsController from "./threads.controller";
 import ThreadsService from "./threads.service";
-import ThreadsEntity from "../../common/entities/threads.entity";
+import ThreadsEntity from "../../common/db/entities/threads.entity";
 import * as Joi from "joi";
-import UsersEntity from "../../common/entities/users.entity";
+import UsersEntity from "../../common/db/entities/users.entity";
 import {
   RequestAddCommentType,
   RequestAddReplyType,
@@ -12,8 +12,8 @@ import {
   RequestDeleteCommentType,
   RequestDeleteReplyType,
 } from "./threads.dto";
-import CommentsEntity from "../../common/entities/comments.entity";
-import RepliesEntity from "../../common/entities/replies.entity";
+import CommentsEntity from "../../common/db/entities/comments.entity";
+import RepliesEntity from "../../common/db/entities/replies.entity";
 
 interface PluginOptions {
   threadsRepository: Repository<ThreadsEntity>;

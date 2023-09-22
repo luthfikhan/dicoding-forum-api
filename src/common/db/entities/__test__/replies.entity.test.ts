@@ -1,5 +1,5 @@
 import { Repository } from "typeorm";
-import AppDataSource from "../../db/data-source";
+import AppDataSource from "../../db.config";
 import RepliesEntity from "../replies.entity";
 
 describe("RepliesEntity Test", () => {

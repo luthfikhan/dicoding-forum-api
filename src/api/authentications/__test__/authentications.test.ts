@@ -1,10 +1,10 @@
 import { Server, ServerApplicationState } from "@hapi/hapi";
 import createServer from "../../../utils/server";
 import { Repository } from "typeorm";
-import UsersEntity from "../../../common/entities/users.entity";
-import AppDataSource from "../../../common/db/data-source";
+import UsersEntity from "../../../common/db/entities/users.entity";
+import AppDataSource from "../../../common/db/db.config";
 import { hashPassword } from "../../../utils/password-hash";
-import AuthenticationsEntity from "../../../common/entities/authentications.entity";
+import AuthenticationsEntity from "../../../common/db/entities/authentications.entity";
 import { generateToken, generateTokenId } from "../../../utils/token";
 
 describe("Authentications API Test", () => {

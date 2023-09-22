@@ -1,7 +1,7 @@
 import { Repository } from "typeorm";
 import AuthenticationsEntity from "../authentications.entity";
-import AppDataSource from "../../db/data-source";
-import { generateTokenId } from "../../../utils/token";
+import AppDataSource from "../../db.config";
+import { generateTokenId } from "../../../../utils/token";
 
 describe("AuthenticationsEntity Test", () => {
   let authenticationRepository: Repository<AuthenticationsEntity>;

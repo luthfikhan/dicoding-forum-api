@@ -1,17 +1,17 @@
 import { Request, Server } from "@hapi/hapi";
 import * as jwt from "@hapi/jwt";
 import Pino from "pino";
-import AppDataSource from "../common/db/data-source";
+import AppDataSource from "../common/db/db.config";
 import users from "../api/users";
 import ClientError from "../common/exceptions/client-error";
 import authentications from "../api/authentications";
 import threads from "../api/threads";
 import UnAuthenticationError from "../common/exceptions/unauthentication";
-import AuthenticationsEntity from "../common/entities/authentications.entity";
-import UsersEntity from "../common/entities/users.entity";
-import ThreadsEntity from "../common/entities/threads.entity";
-import CommentsEntity from "../common/entities/comments.entity";
-import RepliesEntity from "../common/entities/replies.entity";
+import AuthenticationsEntity from "../common/db/entities/authentications.entity";
+import UsersEntity from "../common/db/entities/users.entity";
+import ThreadsEntity from "../common/db/entities/threads.entity";
+import CommentsEntity from "../common/db/entities/comments.entity";
+import RepliesEntity from "../common/db/entities/replies.entity";
 
 const createServer = async () => {
   const server: Server = new Server({

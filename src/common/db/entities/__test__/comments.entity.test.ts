@@ -1,6 +1,6 @@
 import { Repository } from "typeorm";
 import CommentsEntity from "../comments.entity";
-import AppDataSource from "../../db/data-source";
+import AppDataSource from "../../db.config";
 import UsersEntity from "../users.entity";
 
 describe("CommentsEntity Test", () => {
