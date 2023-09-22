@@ -7,11 +7,11 @@ import ClientError from "../common/exceptions/client-error";
 import authentications from "../api/authentications";
 import threads from "../api/threads";
 import UnAuthenticationError from "../common/exceptions/unauthentication";
-import AuthenticationsEntity from "../common/db/entities/authentications.entity";
-import UsersEntity from "../common/db/entities/users.entity";
-import ThreadsEntity from "../common/db/entities/threads.entity";
-import CommentsEntity from "../common/db/entities/comments.entity";
-import RepliesEntity from "../common/db/entities/replies.entity";
+import AuthenticationsRepository from "../common/db/repositories/authentications.repository";
+import UsersRepository from "../common/db/repositories/users.repository";
+import RepliesRepository from "../common/db/repositories/replies.repository";
+import CommentsRepository from "../common/db/repositories/comments.repository";
+import ThreadsRepository from "../common/db/repositories/threads.repository";
 
 const createServer = async () => {
   const server: Server = new Server({
@@ -23,11 +23,11 @@ const createServer = async () => {
   });
 
   const dataSource = AppDataSource;
-  const authenticationsRepository = dataSource.getRepository(AuthenticationsEntity);
-  const usersRepository = dataSource.getRepository(UsersEntity);
-  const threadsRepository = dataSource.getRepository(ThreadsEntity);
-  const commentsRepository = dataSource.getRepository(CommentsEntity);
-  const repliesRepository = dataSource.getRepository(RepliesEntity);
+  const authenticationsRepository = new AuthenticationsRepository(dataSource);
+  const usersRepository = new UsersRepository(dataSource);
+  const threadsRepository = new ThreadsRepository(dataSource);
+  const commentsRepository = new CommentsRepository(dataSource);
+  const repliesRepository = new RepliesRepository(dataSource);
 
   // routes
   await server.register([
@@ -63,11 +63,7 @@ const createServer = async () => {
     validate: async (artifacts: any) => {
       const payload = artifacts.decoded.payload;
 
-      const id = await authenticationsRepository.findOne({
-        where: {
-          tokenId: payload.tokenId,
-        },
-      });
+      const id = await authenticationsRepository.findAuth(payload.tokenId);
 
       if (!id) throw new UnAuthenticationError("Expired Token");
 

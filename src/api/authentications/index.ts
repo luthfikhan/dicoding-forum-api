@@ -1,15 +1,14 @@
 import { type Plugin, type Request, type ResponseToolkit } from "@hapi/hapi";
-import { Repository } from "typeorm";
 import AuthenticationsController from "./authentications.controller";
 import AuthenticationsService from "./authentications.service";
-import AuthenticationsEntity from "../../common/db/entities/authentications.entity";
 import * as Joi from "joi";
 import { type RequestLoginType, type RequestLogoutType, type RequestRefreshTokenType } from "./authentications.dto";
-import UsersEntity from "../../common/db/entities/users.entity";
+import AuthenticationsRepositoryType from "../../common/types/db/repositories/authentications.repository.type";
+import UsersRepositoryType from "../../common/types/db/repositories/users.repository.type";
 
 interface PluginOptions {
-  authenticationsRepository: Repository<AuthenticationsEntity>;
-  usersRepository: Repository<UsersEntity>;
+  authenticationsRepository: AuthenticationsRepositoryType;
+  usersRepository: UsersRepositoryType;
 }
 
 const authentications: Plugin<PluginOptions> = {

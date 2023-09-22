@@ -1,30 +1,20 @@
-import { type Repository } from "typeorm";
 import AuthenticationsEntity from "../../common/db/entities/authentications.entity";
-import type UsersEntity from "../../common/db/entities/users.entity";
 import BadRequestError from "../../common/exceptions/bad-request";
 import { isCorrectPassword } from "../../utils/password-hash";
 import { type LoginPayload } from "./authentications.dto";
 import UnAuthenticationError from "../../common/exceptions/unauthentication";
 import { generateToken, generateTokenId, verifyToken } from "../../utils/token";
+import AuthenticationsRepositoryType from "../../common/types/db/repositories/authentications.repository.type";
+import UsersRepositoryType from "../../common/types/db/repositories/users.repository.type";
 
 export default class AuthenticationsService {
   constructor(
-    private readonly authenticationsRepository: Repository<AuthenticationsEntity>,
-    private readonly usersRepository: Repository<UsersEntity>,
+    private readonly authenticationsRepository: AuthenticationsRepositoryType,
+    private readonly usersRepository: UsersRepositoryType,
   ) {}
 
-  async getUserByUsername(username: string) {
-    const user = await this.usersRepository.findOne({
-      where: {
-        username,
-      },
-    });
-
-    return user;
-  }
-
   async login(payload: LoginPayload) {
-    const user = await this.getUserByUsername(payload.username);
+    const user = await this.usersRepository.findUser(payload.username);
 
     if (!user) {
       throw new BadRequestError("username tidak ditemukan");
@@ -42,7 +32,7 @@ export default class AuthenticationsService {
     const tokenId = generateTokenId(username);
     auth.tokenId = tokenId;
 
-    await this.authenticationsRepository.save(auth);
+    await this.authenticationsRepository.saveAuth(auth);
 
     return generateToken({ username, tokenId });
   }
@@ -54,16 +44,10 @@ export default class AuthenticationsService {
   }
 
   async validateTokenId(tokenId: string) {
-    return await this.authenticationsRepository.findOne({
-      where: {
-        tokenId,
-      },
-    });
+    return await this.authenticationsRepository.findAuth(tokenId);
   }
 
   async revokeTokenId(tokenId: string) {
-    await this.authenticationsRepository.delete({
-      tokenId,
-    });
+    await this.authenticationsRepository.deleteAuth(tokenId);
   }
 }

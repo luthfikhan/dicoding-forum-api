@@ -5,5 +5,11 @@ module.exports = {
   testPathIgnorePatterns: ["node_modules/", "dist/"],
   clearMocks: true,
   setupFiles: ["<rootDir>/jest.setup.ts"],
-  collectCoverageFrom: ["src/**/*.ts", "!**/node_modules/**", "!**/src/index.ts"],
+  collectCoverageFrom: [
+    "src/**/*.ts",
+    "!**/node_modules/**",
+    "!**/src/index.ts",
+    "!**/src/common/types/**",
+    "!**/src/common/db/entities/**",
+  ],
 };

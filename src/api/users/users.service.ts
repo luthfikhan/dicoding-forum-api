@@ -1,9 +1,9 @@
-import { Repository } from "typeorm";
 import UsersEntity from "../../common/db/entities/users.entity";
 import BadRequestError from "../../common/exceptions/bad-request";
+import UsersRepositoryType from "../../common/types/db/repositories/users.repository.type";
 
 export default class UsersService {
-  constructor(private userRepository: Repository<UsersEntity>) {}
+  constructor(private userRepository: UsersRepositoryType) {}
 
   validateUsername(username: string) {
     if (!/^[a-zA-Z0-9_]+$/.test(username)) {
@@ -12,16 +12,12 @@ export default class UsersService {
   }
 
   async usernameEligibility(username: string) {
-    const user = await this.userRepository.findOne({
-      where: {
-        username,
-      },
-    });
+    const user = await this.userRepository.findUser(username);
 
     if (user) throw new BadRequestError("username tidak tersedia");
   }
 
   insert(user: Partial<UsersEntity>) {
-    return this.userRepository.save(user);
+    return this.userRepository.saveUser(user);
   }
 }

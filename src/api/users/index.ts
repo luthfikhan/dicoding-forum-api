@@ -1,13 +1,12 @@
 import { Plugin, Request, ResponseToolkit } from "@hapi/hapi";
-import { Repository } from "typeorm";
 import UsersController from "./users.controller";
 import UsersService from "./users.service";
-import UsersEntity from "../../common/db/entities/users.entity";
 import * as Joi from "joi";
 import { AddUserPayload } from "./users.dto";
+import UsersRepositoryType from "../../common/types/db/repositories/users.repository.type";
 
 type PluginOptions = {
-  usersRepository: Repository<UsersEntity>;
+  usersRepository: UsersRepositoryType;
 };
 
 const users: Plugin<PluginOptions> = {

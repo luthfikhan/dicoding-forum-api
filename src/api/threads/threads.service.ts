@@ -1,33 +1,24 @@
-import { Repository } from "typeorm";
 import { AddCommentPayload, AddReplyPayload, AddThreadPayload } from "./threads.dto";
-import UsersEntity from "../../common/db/entities/users.entity";
-import ThreadsEntity from "../../common/db/entities/threads.entity";
-import CommentsEntity from "../../common/db/entities/comments.entity";
-import RepliesEntity from "../../common/db/entities/replies.entity";
 import NotFoundError from "../../common/exceptions/not-found";
 import { nanoid } from "nanoid";
 import UnAuthorizationError from "../../common/exceptions/unauthorization";
+import UsersRepositoryType from "../../common/types/db/repositories/users.repository.type";
+import RepliesRepositoryType from "../../common/types/db/repositories/replies.repository.type";
+import CommentsRepositoryType from "../../common/types/db/repositories/comments.repository.type";
+import ThreadsRepositoryType from "../../common/types/db/repositories/threads.repository.type";
 
 class ThreadsService {
   constructor(
-    private readonly threadsRepository: Repository<ThreadsEntity>,
-    private readonly usersRepository: Repository<UsersEntity>,
-    private readonly commentsRepository: Repository<CommentsEntity>,
-    private readonly repliesRepository: Repository<RepliesEntity>,
+    private readonly threadsRepository: ThreadsRepositoryType,
+    private readonly usersRepository: UsersRepositoryType,
+    private readonly commentsRepository: CommentsRepositoryType,
+    private readonly repliesRepository: RepliesRepositoryType,
   ) {}
 
-  async getUserByUsername(username: string) {
-    return await this.usersRepository.findOne({
-      where: {
-        username,
-      },
-    });
-  }
-
   async createThreads(username: string, thread: AddThreadPayload) {
-    const owner = await this.getUserByUsername(username);
+    const owner = await this.usersRepository.findUser(username);
 
-    return await this.threadsRepository.save({
+    return await this.threadsRepository.saveThread({
       id: `thread-${nanoid(40)}`,
       body: thread.body,
       title: thread.title,
@@ -35,21 +26,13 @@ class ThreadsService {
     });
   }
 
-  async getThreadDetail(id: string) {
-    return await this.threadsRepository.findOne({
-      where: {
-        id,
-      },
-    });
-  }
-
   async createThreadComment(username: string, threadId: string, payload: AddCommentPayload) {
-    const user = await this.getUserByUsername(username);
-    const thread = await this.getThreadDetail(threadId);
+    const user = await this.usersRepository.findUser(username);
+    const thread = await this.threadsRepository.findThread(threadId);
 
     if (!thread) throw new NotFoundError("Thread tidak ditemukan");
 
-    return await this.commentsRepository.save({
+    return await this.commentsRepository.saveComment({
       id: `comment-${nanoid(40)}`,
       content: payload.content,
       owner: user,
@@ -57,32 +40,8 @@ class ThreadsService {
     });
   }
 
-  async getCommentById(id: string) {
-    return await this.commentsRepository.findOne({
-      where: {
-        id,
-      },
-      relations: ["owner"],
-    });
-  }
-
-  async getReplyById(id: string) {
-    return await this.repliesRepository.findOne({
-      where: {
-        id,
-      },
-      relations: ["owner"],
-    });
-  }
-
   async getDeepThreadDetail(id: string) {
-    const thread = await this.threadsRepository.findOne({
-      withDeleted: true,
-      where: {
-        id,
-      },
-      relations: ["owner", "comments", "comments.owner", "comments.replies", "comments.replies.owner"],
-    });
+    const thread = await this.threadsRepository.findThread(id);
 
     if (!thread) throw new NotFoundError("Thread tidak ditemukan");
 
@@ -112,32 +71,30 @@ class ThreadsService {
   }
 
   async deleteComment(username: string, threadId: string, commentId: string) {
-    const thread = await this.getThreadDetail(threadId);
+    const thread = await this.threadsRepository.findThread(threadId);
     if (!thread) throw new NotFoundError("Thread tidak ditemukan");
 
-    const comment = await this.getCommentById(commentId);
+    const comment = await this.commentsRepository.findComment(commentId);
     if (!comment) throw new NotFoundError("Comment tidak ditemukan");
 
-    const user = await this.getUserByUsername(username);
+    const user = await this.usersRepository.findUser(username);
 
     if (comment.owner.id !== user.id)
       throw new UnAuthorizationError("Anda tidak punya hak untuk menghapus resource ini");
 
-    await this.commentsRepository.softDelete({
-      id: commentId,
-    });
+    await this.commentsRepository.deleteComment(commentId);
   }
 
   async createCommentReply(username: string, threadId: string, commentId: string, payload: AddReplyPayload) {
-    const thread = await this.getThreadDetail(threadId);
+    const thread = await this.threadsRepository.findThread(threadId);
     if (!thread) throw new NotFoundError("Thread tidak ditemukan");
 
-    const comment = await this.getCommentById(commentId);
+    const comment = await this.commentsRepository.findComment(commentId);
     if (!comment) throw new NotFoundError("Comment tidak ditemukan");
 
-    const user = await this.getUserByUsername(username);
+    const user = await this.usersRepository.findUser(username);
 
-    return await this.repliesRepository.save({
+    return await this.repliesRepository.saveReply({
       id: `reply-${nanoid(40)}`,
       content: payload.content,
       owner: user,
@@ -146,22 +103,20 @@ class ThreadsService {
   }
 
   async deleteReply(username: string, threadId: string, commentId: string, replyId: string) {
-    const thread = await this.getThreadDetail(threadId);
+    const thread = await this.threadsRepository.findThread(threadId);
     if (!thread) throw new NotFoundError("Thread tidak ditemukan");
 
-    const comment = await this.getCommentById(commentId);
+    const comment = await this.commentsRepository.findComment(commentId);
     if (!comment) throw new NotFoundError("Komentar tidak ditemukan");
 
-    const reply = await this.getReplyById(replyId);
+    const reply = await this.repliesRepository.findReply(replyId);
     if (!reply) throw new NotFoundError("Balasan tidak ditemukan");
 
-    const user = await this.getUserByUsername(username);
+    const user = await this.usersRepository.findUser(username);
 
     if (reply.owner.id !== user.id) throw new UnAuthorizationError("Anda tidak punya hak untuk menghapus resource ini");
 
-    await this.repliesRepository.softDelete({
-      id: replyId,
-    });
+    await this.repliesRepository.deleteReply(replyId);
   }
 }
 
