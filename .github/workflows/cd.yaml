@@ -1,0 +1,24 @@
+name: "deploy"
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: remote ssh and deploy app
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.DICODING_SSH_HOST }}
+          username: ${{ secrets.DICODING_SSH_USERNAME }}
+          key: ${{ secrets.DICODING_SSH_KEY }}
+          port: ${{ secrets.DICODING_SSH_PORT }}
+          script: |
+            cd ~/apps/dicoding-forum-api
+            git pull origin master
+            docker compose  -f "docker-compose.production.yml" up -d --build dicoding
+            docker ps --filter "name=dicoding-forum-api"

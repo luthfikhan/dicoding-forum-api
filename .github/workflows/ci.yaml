@@ -1,0 +1,22 @@
+name: "Testing"
+
+on:
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  unit-test:
+    name: "unit test"
+    runs-on: "ubuntu-latest"
+    steps:
+      - uses: actions/checkout@v3
+      - name: "setup node.js"
+        uses: actions/setup-node@v2
+        with:
+          node-version: 14.x
+      - name: setup and running unit test
+        run: |
+          npm install pnpm -g
+          pnpm install --shamefully-hoist
+          pnpm run test
