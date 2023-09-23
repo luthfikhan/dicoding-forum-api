@@ -17,13 +17,20 @@ class ThreadsService {
 
   async createThreads(username: string, thread: AddThreadPayload) {
     const owner = await this.usersRepository.findUser(username);
-
-    return await this.threadsRepository.saveThread({
+    const saveThread = await this.threadsRepository.saveThread({
       id: `thread-${nanoid(40)}`,
       body: thread.body,
       title: thread.title,
       owner,
     });
+
+    return {
+      addedThread: {
+        id: saveThread.id,
+        title: saveThread.title,
+        owner: saveThread.owner.username,
+      },
+    };
   }
 
   async createThreadComment(username: string, threadId: string, payload: AddCommentPayload) {
@@ -31,13 +38,20 @@ class ThreadsService {
     const thread = await this.threadsRepository.findThread(threadId);
 
     if (!thread) throw new NotFoundError("Thread tidak ditemukan");
-
-    return await this.commentsRepository.saveComment({
+    const comment = await this.commentsRepository.saveComment({
       id: `comment-${nanoid(40)}`,
       content: payload.content,
       owner: user,
       thread,
     });
+
+    return {
+      addedComment: {
+        id: comment.id,
+        content: comment.content,
+        owner: comment.owner.username,
+      },
+    };
   }
 
   async getDeepThreadDetail(id: string) {
@@ -46,27 +60,29 @@ class ThreadsService {
     if (!thread) throw new NotFoundError("Thread tidak ditemukan");
 
     return {
-      id: thread.id,
-      title: thread.title,
-      body: thread.body,
-      date: thread.date,
-      username: thread.owner.username,
-      comments: thread.comments
-        .sort((a, b) => a.date.getTime() - b.date.getTime())
-        .map((comment) => ({
-          id: comment.id,
-          username: comment.owner.username,
-          date: comment.date,
-          content: comment.deletedAt ? "**komentar telah dihapus**" : comment.content,
-          replies: comment.replies
-            .sort((a, b) => a.date.getTime() - b.date.getTime())
-            .map((reply) => ({
-              id: reply.id,
-              content: reply.deletedAt ? "**balasan telah dihapus**" : reply.content,
-              date: reply.date,
-              username: reply.owner.username,
-            })),
-        })),
+      thread: {
+        id: thread.id,
+        title: thread.title,
+        body: thread.body,
+        date: thread.date,
+        username: thread.owner.username,
+        comments: thread.comments
+          .sort((a, b) => a.date.getTime() - b.date.getTime())
+          .map((comment) => ({
+            id: comment.id,
+            username: comment.owner.username,
+            date: comment.date,
+            content: comment.deletedAt ? "**komentar telah dihapus**" : comment.content,
+            replies: comment.replies
+              .sort((a, b) => a.date.getTime() - b.date.getTime())
+              .map((reply) => ({
+                id: reply.id,
+                content: reply.deletedAt ? "**balasan telah dihapus**" : reply.content,
+                date: reply.date,
+                username: reply.owner.username,
+              })),
+          })),
+      },
     };
   }
 
@@ -93,13 +109,20 @@ class ThreadsService {
     if (!comment) throw new NotFoundError("Comment tidak ditemukan");
 
     const user = await this.usersRepository.findUser(username);
-
-    return await this.repliesRepository.saveReply({
+    const reply = await this.repliesRepository.saveReply({
       id: `reply-${nanoid(40)}`,
       content: payload.content,
       owner: user,
       comment,
     });
+
+    return {
+      addedReply: {
+        id: reply.id,
+        content: reply.content,
+        owner: reply.owner.username,
+      },
+    };
   }
 
   async deleteReply(username: string, threadId: string, commentId: string, replyId: string) {

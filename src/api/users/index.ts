@@ -2,7 +2,7 @@ import { Plugin, Request, ResponseToolkit } from "@hapi/hapi";
 import UsersController from "./users.controller";
 import UsersService from "./users.service";
 import * as Joi from "joi";
-import { AddUserPayload } from "./users.dto";
+import { RequestAddUserype } from "./users.dto";
 import UsersRepositoryType from "../../types/repositories/users.repository.type";
 
 type PluginOptions = {
@@ -20,7 +20,7 @@ const users: Plugin<PluginOptions> = {
     server.route({
       method: "POST",
       path: "/users",
-      handler: (request: Request<AddUserPayload>, h: ResponseToolkit) => {
+      handler: (request: Request<RequestAddUserype>, h: ResponseToolkit) => {
         return usersController.addUser(request, h);
       },
       options: {

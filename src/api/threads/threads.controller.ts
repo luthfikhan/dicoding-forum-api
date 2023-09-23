@@ -19,13 +19,7 @@ class ThreadsController {
     return h
       .response({
         status: "success",
-        data: {
-          addedThread: {
-            id: thread.id,
-            title: thread.title,
-            owner: thread.owner.username,
-          },
-        },
+        data: thread,
       })
       .code(201);
   }
@@ -39,13 +33,7 @@ class ThreadsController {
     return h
       .response({
         status: "success",
-        data: {
-          addedComment: {
-            id: comment.id,
-            content: comment.content,
-            owner: comment.owner.username,
-          },
-        },
+        data: comment,
       })
       .code(201);
   }
@@ -63,12 +51,11 @@ class ThreadsController {
 
   async getThreadDetail(request: Request) {
     const threadId = request.params.threadId;
+    const thread = await this.threadsService.getDeepThreadDetail(threadId);
 
     return {
       status: "success",
-      data: {
-        thread: await this.threadsService.getDeepThreadDetail(threadId),
-      },
+      data: thread,
     };
   }
 
@@ -81,13 +68,7 @@ class ThreadsController {
     return h
       .response({
         status: "success",
-        data: {
-          addedReply: {
-            id: reply.id,
-            content: reply.content,
-            owner: reply.owner.username,
-          },
-        },
+        data: reply,
       })
       .code(201);
   }

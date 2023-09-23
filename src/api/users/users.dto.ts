@@ -1,7 +1,7 @@
-type addUserPayload = {
+export type AddUserPayload = {
   username: string;
   password: string;
   fullname: string;
 };
 
-export type AddUserPayload = Partial<Record<"Payload", addUserPayload>>;
+export type RequestAddUserype = Partial<Record<"Payload", AddUserPayload>>;
