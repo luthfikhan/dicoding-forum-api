@@ -17,6 +17,6 @@ jobs:
           node-version: 14.x
       - name: setup and running unit test
         run: |
-          npm install pnpm -g
+          npm install pnpm@6 -g
           pnpm install --shamefully-hoist
           pnpm run test
