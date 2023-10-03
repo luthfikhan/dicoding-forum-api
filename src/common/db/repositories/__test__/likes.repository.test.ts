@@ -81,7 +81,6 @@ describe("Likes Repository Test", () => {
     await likeRepository.deleteLike(data.id);
     const updated = await likeRepository.findLike(username, commentId);
 
-    // test failed
-    expect(!!updated).toBeTruthy();
+    expect(!!updated).toBeFalsy();
   });
 });
