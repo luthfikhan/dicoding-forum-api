@@ -15,7 +15,7 @@ jobs:
         with:
           host: ${{ secrets.DICODING_SSH_HOST }}
           username: ${{ secrets.DICODING_SSH_USERNAME }}
-          key: ${{ secrets.DICODING_SSH_KEY }}
+          password: ${{ secrets.DICODING_SSH_PASSWORD }}
           port: ${{ secrets.DICODING_SSH_PORT }}
           script: |
             cd ~/apps/dicoding-forum-api
