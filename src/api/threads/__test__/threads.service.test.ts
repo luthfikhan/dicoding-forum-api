@@ -12,6 +12,8 @@ import CommentsRepository from "../../../common/db/repositories/comments.reposit
 import RepliesRepository from "../../../common/db/repositories/replies.repository";
 import AuthenticationsRepository from "../../../common/db/repositories/authentications.repository";
 import ThreadsService from "../threads.service";
+import LikesRepository from "../../../common/db/repositories/likes.repository";
+import LikesEntity from "../../../common/db/entities/likes.entity";
 
 describe("Threads Service Test", () => {
   let server: Server<ServerApplicationState>;
@@ -20,7 +22,14 @@ describe("Threads Service Test", () => {
   const commentsRepository = new CommentsRepository(AppDataSource);
   const repliesRepository = new RepliesRepository(AppDataSource);
   const authenticationsRepository = new AuthenticationsRepository(AppDataSource);
-  const threadsService = new ThreadsService(threadsRepository, usersRepository, commentsRepository, repliesRepository);
+  const likesRepository = new LikesRepository(AppDataSource);
+  const threadsService = new ThreadsService(
+    threadsRepository,
+    usersRepository,
+    commentsRepository,
+    repliesRepository,
+    likesRepository,
+  );
   const username = "luthfikhann";
   const userId = "user-id";
 
@@ -148,6 +157,7 @@ describe("Threads Service Test", () => {
           {
             id: "comment-id",
             content: "content",
+            likes: [],
             date: new Date(),
             owner: {
               id: userId,
@@ -174,6 +184,7 @@ describe("Threads Service Test", () => {
           },
           {
             id: "comment-id2",
+            likes: [],
             content: "content",
             date: new Date(),
             owner: {
@@ -215,6 +226,7 @@ describe("Threads Service Test", () => {
           {
             id: "comment-id",
             content: "content",
+            likes: [],
             date: new Date(),
             deletedAt: new Date(),
             owner: {
@@ -248,6 +260,7 @@ describe("Threads Service Test", () => {
           {
             id: "comment-id",
             content: "content",
+            likes: [],
             date: new Date(),
             owner: {
               id: userId,
@@ -379,6 +392,51 @@ describe("Threads Service Test", () => {
       jest.spyOn(repliesRepository, "deleteReply").mockResolvedValueOnce({ raw: "ok", generatedMaps: [] });
 
       await threadsService.deleteReply(username, "id", "id", "id");
+      expect.assertions(0);
+    });
+  });
+
+  describe("Add Like on comment", () => {
+    test("thread not found", async () => {
+      jest.spyOn(threadsRepository, "findThread").mockResolvedValueOnce(null);
+
+      expect(threadsService.addCommentLike(username, "id", "id")).rejects.toThrow("Thread tidak ditemukan");
+    });
+
+    test("comment not found", async () => {
+      jest.spyOn(threadsRepository, "findThread").mockResolvedValueOnce({ id: "id" } as ThreadsEntity);
+      jest.spyOn(commentsRepository, "findComment").mockResolvedValueOnce(null);
+
+      expect(threadsService.addCommentLike(username, "id", "id")).rejects.toThrow("Komentar tidak ditemukan");
+    });
+
+    test("Like", async () => {
+      jest
+        .spyOn(threadsRepository, "findThread")
+        .mockResolvedValueOnce({ id: "ID", body: "body", title: "title" } as ThreadsEntity);
+      jest.spyOn(commentsRepository, "findComment").mockResolvedValueOnce({
+        id: "comment-id",
+        content: "content",
+      } as CommentsEntity);
+      jest.spyOn(likesRepository, "findLike").mockResolvedValueOnce(null);
+      jest.spyOn(likesRepository, "saveLike").mockResolvedValueOnce({ id: "id" } as LikesEntity);
+
+      await threadsService.addCommentLike(username, "id", "id");
+      expect.assertions(0);
+    });
+
+    test("Unlike", async () => {
+      jest
+        .spyOn(threadsRepository, "findThread")
+        .mockResolvedValueOnce({ id: "ID", body: "body", title: "title" } as ThreadsEntity);
+      jest.spyOn(commentsRepository, "findComment").mockResolvedValueOnce({
+        id: "comment-id",
+        content: "content",
+      } as CommentsEntity);
+      jest.spyOn(likesRepository, "findLike").mockResolvedValueOnce({ id: "id" } as LikesEntity);
+      jest.spyOn(likesRepository, "deleteLike").mockResolvedValueOnce({ raw: "ok" });
+
+      await threadsService.addCommentLike(username, "id", "id");
       expect.assertions(0);
     });
   });

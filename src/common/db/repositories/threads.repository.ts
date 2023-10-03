@@ -16,7 +16,14 @@ class ThreadsRepository implements ThreadsRepositoryType {
     return this.repository.findOne({
       withDeleted: true,
       where: { id },
-      relations: ["owner", "comments", "comments.owner", "comments.replies", "comments.replies.owner"],
+      relations: [
+        "owner",
+        "comments",
+        "comments.owner",
+        "comments.replies",
+        "comments.replies.owner",
+        "comments.likes",
+      ],
     });
   }
 }

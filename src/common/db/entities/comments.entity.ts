@@ -2,6 +2,7 @@ import { Entity, Column, CreateDateColumn, ManyToOne, OneToMany, DeleteDateColum
 import UsersEntity from "./users.entity";
 import { ThreadsEntity } from "./threads.entity";
 import RepliesEntity from "./replies.entity";
+import LikesEntity from "./likes.entity";
 
 @Entity("comments")
 export class CommentsEntity {
@@ -25,6 +26,9 @@ export class CommentsEntity {
 
   @OneToMany(() => RepliesEntity, (reply) => reply.comment)
   replies: RepliesEntity[];
+
+  @OneToMany(() => LikesEntity, (like) => like.comment)
+  likes: LikesEntity[];
 }
 
 export default CommentsEntity;

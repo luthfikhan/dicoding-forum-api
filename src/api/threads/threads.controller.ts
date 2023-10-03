@@ -5,6 +5,7 @@ import {
   RequestAddThreadType,
   RequestDeleteCommentType,
   RequestDeleteReplyType,
+  RequestLikeCommentType,
 } from "./threads.dto";
 import ThreadsService from "./threads.service";
 
@@ -78,6 +79,17 @@ class ThreadsController {
     const { threadId, commentId, replyId } = request.params;
 
     await this.threadsService.deleteReply(username, threadId, commentId, replyId);
+
+    return {
+      status: "success",
+    };
+  }
+
+  async addCommentLike(request: Request<RequestLikeCommentType>) {
+    const username = request.auth.credentials.user.username;
+    const { threadId, commentId } = request.params;
+
+    await this.threadsService.addCommentLike(username, threadId, commentId);
 
     return {
       status: "success",

@@ -6,6 +6,7 @@ import UsersRepositoryType from "../../types/repositories/users.repository.type"
 import RepliesRepositoryType from "../../types/repositories/replies.repository.type";
 import CommentsRepositoryType from "../../types/repositories/comments.repository.type";
 import ThreadsRepositoryType from "../../types/repositories/threads.repository.type";
+import LikesRepositoryType from "../../types/repositories/likes.repository.type";
 
 class ThreadsService {
   constructor(
@@ -13,6 +14,7 @@ class ThreadsService {
     private readonly usersRepository: UsersRepositoryType,
     private readonly commentsRepository: CommentsRepositoryType,
     private readonly repliesRepository: RepliesRepositoryType,
+    private readonly likesRepository: LikesRepositoryType,
   ) {}
 
   async createThreads(username: string, thread: AddThreadPayload) {
@@ -73,6 +75,7 @@ class ThreadsService {
             username: comment.owner.username,
             date: comment.date,
             content: comment.deletedAt ? "**komentar telah dihapus**" : comment.content,
+            likeCount: comment.likes.length,
             replies: comment.replies
               .sort((a, b) => a.date.getTime() - b.date.getTime())
               .map((reply) => ({
@@ -140,6 +143,23 @@ class ThreadsService {
     if (reply.owner.id !== user.id) throw new UnAuthorizationError("Anda tidak punya hak untuk menghapus resource ini");
 
     await this.repliesRepository.deleteReply(replyId);
+  }
+
+  async addCommentLike(username: string, threadId: string, commentId: string) {
+    const thread = await this.threadsRepository.findThread(threadId);
+    if (!thread) throw new NotFoundError("Thread tidak ditemukan");
+
+    const comment = await this.commentsRepository.findComment(commentId);
+    if (!comment) throw new NotFoundError("Komentar tidak ditemukan");
+
+    const user = await this.usersRepository.findUser(username);
+    const like = await this.likesRepository.findLike(username, commentId);
+
+    if (like) {
+      await this.likesRepository.deleteLike(like.id);
+    } else {
+      await this.likesRepository.saveLike({ owner: user, comment });
+    }
   }
 }
 
