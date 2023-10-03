@@ -2,6 +2,7 @@ import { Entity, PrimaryColumn, Column, OneToMany } from "typeorm";
 import ThreadsEntity from "./threads.entity";
 import CommentsEntity from "./comments.entity";
 import RepliesEntity from "./replies.entity";
+import LikesEntity from "./likes.entity";
 
 @Entity("users")
 class UsersEntity {
@@ -25,6 +26,9 @@ class UsersEntity {
 
   @OneToMany(() => RepliesEntity, (replies) => replies.owner)
   replies: RepliesEntity[];
+
+  @OneToMany(() => LikesEntity, (like) => like.owner)
+  likes: LikesEntity[];
 }
 
 export default UsersEntity;

@@ -11,5 +11,6 @@ module.exports = {
     "!**/src/index.ts",
     "!**/src/common/types/**",
     "!**/src/common/db/entities/**",
+    "!**/utils/server.ts",
   ],
 };

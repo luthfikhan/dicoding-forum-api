@@ -12,6 +12,7 @@ import UsersRepository from "../common/db/repositories/users.repository";
 import RepliesRepository from "../common/db/repositories/replies.repository";
 import CommentsRepository from "../common/db/repositories/comments.repository";
 import ThreadsRepository from "../common/db/repositories/threads.repository";
+import LikesRepository from "../common/db/repositories/likes.repository";
 
 const createServer = async () => {
   const server: Server = new Server({
@@ -28,6 +29,7 @@ const createServer = async () => {
   const threadsRepository = new ThreadsRepository(dataSource);
   const commentsRepository = new CommentsRepository(dataSource);
   const repliesRepository = new RepliesRepository(dataSource);
+  const likesRepository = new LikesRepository(dataSource);
 
   // routes
   await server.register([
@@ -46,6 +48,7 @@ const createServer = async () => {
         usersRepository,
         commentsRepository,
         repliesRepository,
+        likesRepository,
       },
     },
   ]);

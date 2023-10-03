@@ -20,5 +20,5 @@ jobs:
           script: |
             cd ~/apps/dicoding-forum-api
             git pull origin master
-            docker compose  -f "docker-compose.production.yml" up -d --build dicoding
-            docker ps --filter "name=dicoding-forum-api"
+            sudo docker compose  -f "docker-compose.production.yml" up -d --build dicoding
+            sudo docker ps --filter "name=dicoding-forum-api"

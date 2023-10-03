@@ -8,29 +8,33 @@ import {
   RequestAddThreadType,
   RequestDeleteCommentType,
   RequestDeleteReplyType,
+  RequestLikeCommentType,
 } from "./threads.dto";
 import UsersRepositoryType from "../../types/repositories/users.repository.type";
 import RepliesRepositoryType from "../../types/repositories/replies.repository.type";
 import CommentsRepositoryType from "../../types/repositories/comments.repository.type";
 import ThreadsRepositoryType from "../../types/repositories/threads.repository.type";
+import LikesRepositoryType from "../../types/repositories/likes.repository.type";
 
 interface PluginOptions {
   threadsRepository: ThreadsRepositoryType;
   usersRepository: UsersRepositoryType;
   commentsRepository: CommentsRepositoryType;
   repliesRepository: RepliesRepositoryType;
+  likesRepository: LikesRepositoryType;
 }
 
 const threads: Plugin<PluginOptions> = {
   name: "api/threads",
   version: "v1",
   register(server, options) {
-    const { threadsRepository, usersRepository, commentsRepository, repliesRepository } = options;
+    const { threadsRepository, usersRepository, commentsRepository, repliesRepository, likesRepository } = options;
     const threadsService = new ThreadsService(
       threadsRepository,
       usersRepository,
       commentsRepository,
       repliesRepository,
+      likesRepository,
     );
     const threadsController = new ThreadsController(threadsService);
 
@@ -100,6 +104,13 @@ const threads: Plugin<PluginOptions> = {
         path: "/threads/{threadId}/comments/{commentId}/replies/{replyId}",
         handler: async (request: Request<RequestDeleteReplyType>) => {
           return threadsController.deleteReply(request);
+        },
+      },
+      {
+        method: "PUT",
+        path: "/threads/{threadId}/comments/{commentId}/likes",
+        handler: async (request: Request<RequestLikeCommentType>) => {
+          return threadsController.addCommentLike(request);
         },
       },
     ]);

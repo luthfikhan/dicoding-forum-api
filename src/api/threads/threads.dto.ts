@@ -45,3 +45,9 @@ type RequestDeleteReplyRef = {
 };
 
 export type RequestDeleteReplyType = Partial<RequestDeleteReplyRef>;
+
+type RequestLikeCommentRef = {
+  AuthUser: AuthType;
+};
+
+export type RequestLikeCommentType = Partial<RequestLikeCommentRef>;

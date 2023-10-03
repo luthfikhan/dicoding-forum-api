@@ -4,6 +4,7 @@ import AuthenticationsEntity from "./entities/authentications.entity";
 import CommentsEntity from "./entities/comments.entity";
 import ThreadsEntity from "./entities/threads.entity";
 import RepliesEntity from "./entities/replies.entity";
+import LikesEntity from "./entities/likes.entity";
 
 const type = process.env.DATA_SOURCE_TYPE as "postgres" | "sqlite";
 
@@ -17,7 +18,7 @@ const AppDataSource = new DataSource({
   dropSchema: process.env.NODE_ENV === "test",
   synchronize: true,
   logging: ["error", "warn", "migration"],
-  entities: [UsersEntity, AuthenticationsEntity, CommentsEntity, ThreadsEntity, RepliesEntity],
+  entities: [UsersEntity, AuthenticationsEntity, CommentsEntity, ThreadsEntity, RepliesEntity, LikesEntity],
 });
 
 export default AppDataSource;

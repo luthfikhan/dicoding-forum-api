@@ -289,6 +289,7 @@ describe("Threads API Test", () => {
             id: "comment-id",
             content: "content",
             date: new Date(),
+            likes: [],
             owner: {
               id: userId,
               username,
@@ -316,6 +317,7 @@ describe("Threads API Test", () => {
             id: "comment-id2",
             content: "content",
             date: new Date(),
+            likes: [],
             owner: {
               id: userId,
               username,
@@ -361,6 +363,7 @@ describe("Threads API Test", () => {
           {
             id: "comment-id",
             content: "content",
+            likes: [],
             date: new Date(),
             deletedAt: new Date(),
             owner: {
@@ -401,6 +404,7 @@ describe("Threads API Test", () => {
             id: "comment-id",
             content: "content",
             date: new Date(),
+            likes: [],
             owner: {
               id: userId,
               username,
